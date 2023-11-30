@@ -7,12 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 def getDonateInfo(ID):
-    
-    options = Options()
-    options.add_argument("--disable-notifacations") #取消彈出視窗
-    options.add_argument("--window-size=700,1440")
-    
-    browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+    browser = webdriver.Chrome()
 
     # Open the chat history web
     browser.get("https://www.youtube.com/live_chat?v=" + ID)
@@ -65,6 +60,7 @@ def getDonateInfo(ID):
                 f.write('Manual')
                 f.write('\n')
                 f.write('$' + add_amount_manual)
+                f.write('\n')
                 f.write('---------------')
                 f.write('\n')
         
@@ -80,6 +76,7 @@ def getDonateInfo(ID):
         try:
             SC = browser.find_elements(By.CLASS_NAME, 'style-scope yt-live-chat-paid-message-renderer')
         except: 
+            print('The website has been closed!')
             break
 
         for i in SC:
