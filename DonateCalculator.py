@@ -3,11 +3,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
-import threading
-import concurrent.futures
-
-import requests
-from bs4 import BeautifulSoup
 
 import time
 
