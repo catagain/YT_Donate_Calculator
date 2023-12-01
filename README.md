@@ -72,7 +72,7 @@ In the example above, the goal is set to five hundred thousand units.
 
 Feel free to ask if you have any questions or need further clarification.
 
-# --------------------------------------------------------------------
+# ----------------------------------------------------------------
 
 # Youtube 抖內計算機
 
