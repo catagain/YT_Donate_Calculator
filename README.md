@@ -74,7 +74,7 @@ Feel free to ask if you have any questions or need further clarification.
 
 # ----------------------------------------------------------------
 
-# Youtube 抖內計算機
+# Youtube 斗內計算機
 
 一個可以幫你計算 YT 平台上 SC 收益的工具，也可以透過它來將數值顯示在你的直播上。
 
