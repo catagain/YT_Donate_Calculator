@@ -44,7 +44,33 @@ You can use OBS's text source and select "Read from file," specifying the path t
 
 If you need to manually adjust values, open "AddAmountManual.txt" and enter the desired positive or negative value. Don't forget to save by pressing ```ctrl + s``` after making changes!
 
-Feel free to reach out if you have any questions or need further assistance.
+
+### 3. How to Use the Health Bar
+Start by adding background.png to OBS:
+
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/123f2855-d868-4377-a09e-519a02e69c3a)
+
+Insert the bar_example.png for positioning, ensuring that the green bar completely covers the health bar.
+
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/ac942100-f0d9-4a9d-98a0-5fae6b4cff38)
+
+Replace bar_example.png with bar.png.
+
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/9eb3e388-3578-4b3a-995c-9f25e067b62d)
+
+Finally, place heart.png on the heart in background.png, and you're all set!
+
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/000d8133-6e57-40c8-a709-856ff2921c9a)
+
+The health bar will automatically rise with the increase in CurrentDonateAmount.
+You can modify your donation goal in line 11 of DonateCalculator.py:
+
+```python
+TARGET = 500000
+```
+In the example above, the goal is set to five hundred thousand units.
+
+Feel free to ask if you have any questions or need further clarification.
 
 # --------------------------------------------------------------------
 
@@ -107,5 +133,27 @@ python DonateCalculator.py
 
 ！！！修改後請按 ```ctrl + s ```存檔！！！
 
+### 3. 血條如何使用
 
+先把 background.png 放進 OBS：
 
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/123f2855-d868-4377-a09e-519a02e69c3a)
+
+將定位用的 bar_example.png 放進去，使綠色條完全蓋住血條。
+
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/ac942100-f0d9-4a9d-98a0-5fae6b4cff38)
+
+將 bar_example.png 取代成 bar.png
+
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/9eb3e388-3578-4b3a-995c-9f25e067b62d)
+
+最後將 heart.png 蓋到 background.png 的愛心上，就大功告成啦！
+
+![image](https://github.com/catagain/YT_Donate_Calculator/assets/35026988/000d8133-6e57-40c8-a709-856ff2921c9a)
+
+血條會自動隨著 CurrentDonateAmount 上升。
+你可以在 DonateCalculator.py 中的第 11 行
+```python
+TARGET = 500000
+```
+中修改你的 Donate 目標，上面的例子就是五十萬元。
