@@ -4,7 +4,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 
+from PIL import Image
+
 import time
+
+TARGET = 500000
 
 def getDonateInfo(ID):
     browser = webdriver.Chrome()
@@ -108,6 +112,12 @@ def getDonateInfo(ID):
             print('Current Amount: ' + str(SC_count))
             with open("CurrentDonateAmount.txt", "w") as f:
                 f.write(str(SC_count))
+        
+        color = 'limegreen'
+        width =  max(int(345 * SC_count / TARGET), 1)
+        print(width)
+        img = Image.new('RGBA', (width, 77), color)
+        img.save('./pictures/bar.png')
 
 print('Please input the video ID: ')
 id = input()
