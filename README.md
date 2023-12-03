@@ -2,6 +2,14 @@
 
 A tool that helps you calculate Super Chat earnings on the YouTube platform and allows you to display the calculated values in your live stream.
 
+# NOTICE!
+
+This tool has undergone testing in Taiwan, and it's important to note that the display of donation amounts on YouTube may differ in other countries.
+If you encounter any such errors, please feel free to contact me, and I will promptly address them.
+
+Additionally, this project currently supports TWD, HKD, RMB, MYR, and SGD.
+If your donor uses a currency not on this list, the program may crash. Please reach out to me if you experience this issue.
+
 # Requirements
 
 Python 3.9 and above
@@ -77,6 +85,14 @@ Feel free to ask if you have any questions or need further clarification.
 # Youtube 斗內計算機
 
 一個可以幫你計算 YT 平台上 SC 收益的工具，也可以透過它來將數值顯示在你的直播上。
+
+# NOTICE!
+
+此工具在台灣進行測試，然而 YouTube 上顯示的捐款金額在其他地區可能有所不同。
+如果遇到任何錯誤，請隨時與我聯繫，我會盡快解決。
+
+此外，目前此專案支援新台幣（TWD）、港幣（HKD）、人民幣（RMB）、馬來西亞令吉（MYR）和新加坡元（SGD）。
+如果斗內者使用的貨幣不在此清單中，程式可能會崩潰。如果您遇到此問題，請與我聯繫。
 
 # Requirement
 
