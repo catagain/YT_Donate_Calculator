@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from webdriver_manager.chrome import ChromeDriverManager
 
+from datetime import datetime
+
 from PIL import Image
 
 import time
@@ -13,17 +15,17 @@ TARGET = 500000
 # Check which country's dollar it is.
 def exchange(amount):
     if amount[0:3] == 'HK$':
-        # it's HK dollar, exchange rate: 4
-        excahnge_amount = float(amount[3:].replace(',', '')) * 4
+        exchange_amount = float(amount[3:].replace(',', '')) * 4
     elif amount[0:4] == 'RMB¥':
-        # it's RMB
-        excahnge_amount = float(amount[4:].replace(',', '')) * 5
+        exchange_amount = float(amount[4:].replace(',', '')) * 5
     elif amount[0:3] == 'MYR':
-        excahnge_amount = float(amount[4:].replace(',', '')) * 6.72
+        exchange_amount = float(amount[4:].replace(',', '')) * 6.72
+    elif amount[0:3] == 'SGD':
+        exchange_amount = float(amount[4:].replace(',', '')) * 23.5
     else :
-        excahnge_amount = float(amount[1:].replace(',', ''))
-    # record the SC into history
-    return excahnge_amount
+        # it's TWD
+        exchange_amount = float(amount[1:].replace(',', ''))
+    return exchange_amount
 
 def getDonateInfo(ID):
     browser = webdriver.Chrome()
@@ -64,8 +66,9 @@ def getDonateInfo(ID):
 
     
     # a loop to scrapying all SC
+    refresh_counter = 0
     while(1):
-        time.sleep(10)
+        time.sleep(5)
         # Test if the amount has been modify by manual control
         add_amount_manual = 0
         with open("AddAmountManual.txt", 'r', encoding="utf-8") as f:
@@ -91,6 +94,13 @@ def getDonateInfo(ID):
                 SC_count = float(file) + float(add_amount_manual)
             else:
                 SC_count = 0.0 + float(add_amount_manual)
+
+            # show CurrentAmount every 30 sec.
+            if refresh_counter % 6 == 0:
+                print(datetime.now())
+                print('Current Amount: ' + str(SC_count))
+                print('================================')
+            refresh_counter += 1
         
         # find SC data in html
         try:
@@ -102,13 +112,15 @@ def getDonateInfo(ID):
         for i in SC:
             # print(count, i.text)
             data = i.text.split('\n')
-            print(data[0])
-            print(data[1]) # this one is the amount
+            
             if len(data) >= 3:
-                print(data[2])
-
                 if data[2] not in unique_chat:
-                    # not in Set means this is a new SC
+
+                    print(data[0]) # User ID
+                    print(data[1]) # The Donate amount
+                    print(data[2]) # Super chat text
+
+                    # not in Set means this is a new SC, record it. 
                     unique_chat.add(data[2])
 
                     # Check which country's dollar it is.
@@ -120,14 +132,19 @@ def getDonateInfo(ID):
                         record.write('\n')
                         record.write('---------------')
                         record.write('\n')
-                print('Current Amount: ' + str(SC_count))
+                    print('Current Amount: ' + str(SC_count))
+                    print('--------------------------------')
                 with open("CurrentDonateAmount.txt", "w", encoding="utf-8") as f:
                     f.write(str(SC_count))
             else:
-                if data[0] not in unique_chat:
+                if data[0]+data[1] not in unique_chat:
+                    print(data[0])
+                    print(data[1]) # this one is the amount
+                    print("This is a null SC.")
+
                     # Unable to differentiate based on messages, so using account names. However, not recording in the history to prevent future identical accounts from submitting without messages.
                     SC_count += exchange(data[1])
-                    unique_chat.add(data[0])
+                    unique_chat.add(data[0]+data[1])
 
                     # record the SC into history
                     with open("DonateHistory.txt", "a", encoding="utf-8") as record:
@@ -139,13 +156,13 @@ def getDonateInfo(ID):
                         record.write('\n')
 
                     print('Current Amount: ' + str(SC_count))
-                    with open("CurrentDonateAmount.txt", "w", encoding="utf-8") as f:
-                        f.write(str(SC_count))
-                print("This is a null SC.")
-        
+                    print('--------------------------------')
+                with open("CurrentDonateAmount.txt", "w", encoding="utf-8") as f:
+                    f.write(str(SC_count))
+                    
+        # Output current health bar, the length is 345 * CurrentAmount / TARGET_YOU_SET
         color = 'limegreen'
         width =  max(int(345 * SC_count / TARGET), 1)
-        print(width)
         img = Image.new('RGBA', (width, 77), color)
         img.save('./pictures/bar.png')
 
