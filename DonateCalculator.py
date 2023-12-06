@@ -26,8 +26,11 @@ def exchange(amount):
         elif amount[0:3] == 'AU$':
             exchange_amount = float(amount[3:].replace(',', '')) * 20.8644
         else :
-            # it's TWD
-            exchange_amount = float(amount[1:].replace(',', ''))
+            try:
+                exchange_amount = float(amount[1:].replace(',', ''))
+            except:
+                print("Unknown currency.")
+                print("Please add the amount manualy, and report this error to https://github.com/catagain/YT_Donate_Calculator.")
     except:
         exchange_amount = 0
     return exchange_amount
