@@ -14,17 +14,22 @@ TARGET = 500000
 
 # Check which country's dollar it is.
 def exchange(amount):
-    if amount[0:3] == 'HK$':
-        exchange_amount = float(amount[3:].replace(',', '')) * 4
-    elif amount[0:4] == 'RMB¥':
-        exchange_amount = float(amount[4:].replace(',', '')) * 5
-    elif amount[0:3] == 'MYR':
-        exchange_amount = float(amount[4:].replace(',', '')) * 6.72
-    elif amount[0:3] == 'SGD':
-        exchange_amount = float(amount[4:].replace(',', '')) * 23.5
-    else :
-        # it's TWD
-        exchange_amount = float(amount[1:].replace(',', ''))
+    try:
+        if amount[0:3] == 'HK$':
+            exchange_amount = float(amount[3:].replace(',', '')) * 4
+        elif amount[0:4] == 'RMB¥':
+            exchange_amount = float(amount[4:].replace(',', '')) * 5
+        elif amount[0:3] == 'MYR':
+            exchange_amount = float(amount[4:].replace(',', '')) * 6.72
+        elif amount[0:3] == 'SGD':
+            exchange_amount = float(amount[4:].replace(',', '')) * 23.5
+        elif amount[0:3] == 'AU$':
+            exchange_amount = float(amount[3:].replace(',', '')) * 20.8644
+        else :
+            # it's TWD
+            exchange_amount = float(amount[1:].replace(',', ''))
+    except:
+        exchange_amount = 0
     return exchange_amount
 
 def getDonateInfo(ID):
@@ -63,6 +68,9 @@ def getDonateInfo(ID):
         if SC_count != sumOfDonate:
             print("!!! WARING !!!")
             print("The amount may be wrong.")
+            print('CurrentDonateAmount: ' + str(SC_count))
+            print('Amount in History: '+ str(sumOfDonate))
+            print('================================')
 
     
     # a loop to scrapying all SC
@@ -71,10 +79,15 @@ def getDonateInfo(ID):
         time.sleep(5)
         # Test if the amount has been modify by manual control
         add_amount_manual = 0
+        add_amount_comment = ''
         with open("AddAmountManual.txt", 'r', encoding="utf-8") as f:
-            add_amount_manual = f.read()
-            if add_amount_manual == "":
+            add_amount_data = f.read().split('\n')
+            if add_amount_data[0] == "":
                 add_amount_manual = '0'
+            else :
+                add_amount_manual = add_amount_data[0]
+            if len(add_amount_data) >= 2:
+                add_amount_comment = add_amount_data[1]
         with open("AddAmountManual.txt", 'w', encoding="utf-8") as f:
             f.write('')
         
@@ -82,10 +95,16 @@ def getDonateInfo(ID):
             with open('DonateHistory.txt', 'a', encoding="utf-8") as f:
                 f.write('Manual')
                 f.write('\n')
-                f.write('$' + add_amount_manual)
+                f.write('$' + str(add_amount_manual))
+                f.write('\n')
+                f.write(str(add_amount_comment))
                 f.write('\n')
                 f.write('---------------')
                 f.write('\n')
+                print('Manual add $' + str(add_amount_manual))
+                print(add_amount_comment)
+                print('Current Amount: ' + str(SC_count))
+                print('================================')
         
         with open("CurrentDonateAmount.txt", "r", encoding="utf-8") as f:
         # Get current amount
@@ -98,9 +117,12 @@ def getDonateInfo(ID):
             # show CurrentAmount every 30 sec.
             if refresh_counter % 6 == 0:
                 print(datetime.now())
-                print('Current Amount: ' + str(SC_count))
-                print('================================')
+                print('Current Amount: ' + str(SC_count + float(add_amount_manual)))
+                print('--------------------------------')
             refresh_counter += 1
+
+        with open("CurrentDonateAmount.txt", "w", encoding="utf-8") as f:
+            f.write(str(SC_count))
         
         # find SC data in html
         try:
